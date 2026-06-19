@@ -136,6 +136,7 @@ Lista completa de jogadores atualmente na sala (inclui você). Útil ao entrar.
     ]
   }
 }
+
 ```
 
 ### 4.5 `player_joined`

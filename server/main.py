@@ -1,11 +1,11 @@
 import asyncio
 import websockets
 from rede.rede import tratar_mensagem
+from autenticador.bemvindo import bem_vindo
 
 conectados = set()
 async def servidor(websocket):
-    print("Cliente conectado")
-    print(websocket)
+    await bem_vindo(websocket)
 
     try:
         while True:
@@ -13,10 +13,8 @@ async def servidor(websocket):
             print(f"Mensagem recebida: {recebida}")
 
 
-            resposta = await tratar_mensagem(recebida, websocket)
-            print(f"Mensagem apos tratar: {resposta}")
+            await tratar_mensagem(recebida, websocket)
 
-            await websocket.send(resposta)
             print(20*"=")
 
     except websockets.ConnectionClosed:

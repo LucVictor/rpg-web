@@ -1,5 +1,5 @@
 # Python cache
-server/**/__pycache__/
+/**/__pycache__/
 server/**/*.pyc
 server/**/*.pyo
 server/**/*.pyd

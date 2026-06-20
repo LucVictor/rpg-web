@@ -1,46 +1,29 @@
 import json
-from players.logados import player_logado
+from banco.jogadores import jogadores
+from modelos.jogador import Jogador
+from rede.jogadores_conectados import adicionar_jogador_listagem, resposta_lista_jogadores_conectados
 
-player_lucas = {
-    "id": "p_2",
-    "name": "Lucas",
-    "x": 7, "y": 5, "dir": 4,
-    "hp": 100, "max_hp": 100,
-    "inventory": [
-      { "id": "sword", "name": "Espada", "qty": 1 },
-      { "id": "potion", "name": "Poção", "qty": 3 }
-    ]
-}
 
-player_admin = {
-    "id": "p_1",
-    "name": "Admin",
-    "x": 6, "y": 4, "dir": 3,
-    "hp": 50, "max_hp": 50,
-    "inventory": [
-      { "id": "sword", "name": "Espada", "qty": 1 },
-      { "id": "potion", "name": "Poção", "qty": 3 }
-    ]
+def login_ok_reposta(player_dados: Jogador):
+  jogador = player_dados.model_dump()
+  response = {
+  "t": "login_ok",
+  "d": jogador
 }
+  return response
+  
 
 
 async def logar_usuario(dados, websocket):
     usuario = dados.get("name")
-    if usuario == "lucas":
-        login_ok = {
-          "t": "login_ok",
-          "d": player_lucas
-        }
-        await websocket.send(json.dumps(login_ok))
-        await player_logado(player_lucas, websocket)
-
-    elif usuario == "admin":
-        login_ok = {
-          "t": "login_ok",
-          "d": player_admin
-        } 
-        await websocket.send(json.dumps(login_ok))
-        await player_logado(player_admin, websocket)
+    player = next(
+        (x for x in jogadores if x.name == usuario),
+        None
+    )
+    if player:
+      await websocket.send(json.dumps(login_ok_reposta(player)))
+      await resposta_lista_jogadores_conectados(websocket)
+      await adicionar_jogador_listagem(player, websocket)
 
     else:
         reposta_login_errado = {

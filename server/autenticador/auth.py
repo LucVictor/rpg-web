@@ -1,5 +1,6 @@
 import json
 from banco.jogadores import jogadores
+from chat.chat import entrou_no_chat
 from modelos.jogador import Jogador
 from rede.jogadores_conectados import adicionar_jogador_listagem, resposta_lista_jogadores_conectados
 
@@ -23,6 +24,7 @@ async def logar_usuario(dados, websocket):
       await websocket.send(json.dumps(login_ok_reposta(player)))
       await resposta_lista_jogadores_conectados(websocket)
       await adicionar_jogador_listagem(player, websocket)
+      await entrou_no_chat(player)
 
     else:
         reposta_login_errado = {

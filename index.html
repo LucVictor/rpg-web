@@ -215,8 +215,7 @@ function handle(m) {
       break;
 
     case "login_ok":
-      State.myId = d.id; // <-- importante
-
+      State.myId = d.id;
       State.players.set(d.id, { ...d });
       State.inventory = d.inventory || [];
 

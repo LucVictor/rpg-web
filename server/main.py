@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+from rede.jogadores_conectados import remover_jogador_listagem
 from rede.rede import tratar_mensagem
 from autenticador.bemvindo import bem_vindo
 
@@ -18,7 +19,7 @@ async def servidor(websocket):
             print(20*"=")
 
     except websockets.ConnectionClosed:
-        print("Cliente desconectado")
+        await remover_jogador_listagem(websocket)
 
 
 async def main():

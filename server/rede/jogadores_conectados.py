@@ -1,4 +1,3 @@
-from copy import deepcopy
 
 from modelos.sessao import SessaoJogador
 from modelos.jogador import Jogador
@@ -34,8 +33,14 @@ async def adicionar_jogador_listagem(jogador: Jogador, websocket):
     await resposta_jogador_conectou(jogador)
 
 async def remover_jogador_listagem(websocket):
-    jogador = (x for x in conectados  )
+    for i, jogador in enumerate(conectados):
+        if jogador.websocket == websocket:
+            del conectados[i]
+            await resposta_jogador_removido(jogador)
+            break
+
     
-    
-async def resposta_jogador_removido():
-    { "t": "player_left", "d": { "id": "p_5" } }
+async def resposta_jogador_removido(jogador: SessaoJogador):
+    resposta = { "t": "player_left", "d": { "id": jogador.jogador.id } }
+    for i in conectados:
+        await i.websocket.send(json.dumps(resposta))

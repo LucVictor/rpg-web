@@ -215,10 +215,15 @@ function handle(m) {
       break;
 
     case "login_ok":
+      State.myId = d.id; // <-- importante
+
       State.players.set(d.id, { ...d });
       State.inventory = d.inventory || [];
+
       hideLogin();
-      renderInv(); renderPlayers(); draw();
+      renderInv();
+      renderPlayers();
+      draw();
       break;
 
     case "login_err":

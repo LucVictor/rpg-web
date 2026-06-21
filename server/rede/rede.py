@@ -1,12 +1,18 @@
 import json
 from autenticador.auth import logar_usuario
 from autenticador.bemvindo import bem_vindo
+from movimentacao.movimentacao import jogador_movimentou_reponse
+from rede.jogadores_conectados import conectados
+
 
 async def tratar_mensagem(informacao, websocket):
     dados = json.loads(informacao)
     if dados["t"] == "login":
-        return await logar_usuario(dados["d"], websocket)
+        await logar_usuario(dados["d"], websocket)
         
     if dados["t"] == "welcome":
-        return await bem_vindo(websocket)
-    return json.dumps(dados)
+        await bem_vindo(websocket)
+        return json.dumps(dados)
+    
+    if dados["t"] == "move":
+        await jogador_movimentou_reponse(informacao, websocket)

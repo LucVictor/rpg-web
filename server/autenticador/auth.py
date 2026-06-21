@@ -11,7 +11,6 @@ def login_ok_reposta(player_dados: Jogador):
   "d": jogador
 }
   return response
-  
 
 
 async def logar_usuario(dados, websocket):

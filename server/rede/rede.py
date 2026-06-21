@@ -12,7 +12,6 @@ async def tratar_mensagem(informacao, websocket):
         
     if dados["t"] == "welcome":
         await bem_vindo(websocket)
-        return json.dumps(dados)
-    
+    +
     if dados["t"] == "move":
-        await jogador_movimentou_reponse(informacao, websocket)
+        await jogador_movimentou_reponse(dados, websocket)
